@@ -17,7 +17,7 @@ data_transforms = {
     ]),
 }
 
-data_dir = 'C:\\Users\\User\\Desktop\\Projects\\Defect Classifier\\archive\\casting_data\\casting_data'
+data_dir = os.path.join(os.path.dirname(__file__), 'archive', 'casting_data', 'casting_data')
 
 image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
                     for x in ['train', 'test']}

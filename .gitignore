@@ -5,6 +5,4 @@ venv/
 *.log
 archive/
 .ipynb_checkpoints/
-*.jpg
-*.png
 *.zip

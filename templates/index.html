@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Casting Defect Classifier</title>
+    <style>
+        body { font-family: sans-serif; background: #1e1e1e; color: #eee; padding: 2rem; text-align: center; }
+        .result { font-size: 1.5rem; margin-top: 1.5rem; font-weight: bold; }
+        .defective {color: #ff5252; }
+        .ok { color: #4dd0e1; }
+    </style>
+</head>
+<body>
+    <h1>Casting Part Defect Classifier</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Classify</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result {{ 'defective' if prediction == 'def_front' else 'ok' }}">
+            Prediction: {{ prediction }}
+        </div>
+        <img src="data:{{ type }};base64,{{ image_data }}" alt="Uploaded image" style="max-width: 400px; margin-top: 1rem; border-radius: 8px;">
+    {% endif %}
+</body>
+</html>

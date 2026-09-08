@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
+from data import dataloaders, class_names
+from train import device
 
 def imshow(inp, title=None):
     inp = inp.numpy().transpose((1, 2, 0))
@@ -12,5 +15,28 @@ def imshow(inp, title=None):
         plt.title(title)
     plt.pause(0.001)
 
-def visualize_model(model, num_images = 6):
-    NotImplemented
+def visualize_model(model, num_images=6):
+    was_training = model.training
+    model.eval()
+    images_so_far = 0
+    fig = plt.figure()
+
+    with torch.no_grad():
+        for i, (inputs, labels) in enumerate(dataloaders['test']):
+            inputs = inputs.to(device)
+            labels = labels.to(device)
+
+            outputs = model(inputs)
+            _, preds = torch.max(outputs, 1)
+
+            for j in range(inputs.size()[0]):
+                images_so_far += 1
+                ax = plt.subplot(num_images//2, 2, images_so_far)
+                ax.axis('off')
+                ax.set_title(f'predicted: {class_names[preds[j]]}')
+                imshow(inputs.cpu().data[j])
+
+                if images_so_far == num_images:
+                    model.train(mode=was_training)
+                    return
+        model.train(mode=was_training)

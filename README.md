@@ -13,7 +13,7 @@ This project fine-tunes a pretrained ResNet18 on real casting images to classify
 ## Results
  
 - **Test accuracy: 99.72%**
-- Trained on ~20,000 labeled casting images, evaluated on a held-out test set of ~20,000 images
+- Trained on 6,633 labeled casting images (3,758 defective, 2875 acceptable), evaluated on a held-out test set of 715 images
 - Test loss and accuracy plateaued by epoch 3-4, indicating the model converged quickly on this dataset
 
 | Epoch | Train Loss | Train Acc | Test Loss | Test Acc |
@@ -23,7 +23,20 @@ This project fine-tunes a pretrained ResNet18 on real casting images to classify
 | 2 | 0.2171 | 0.9144 | 0.0185 | 0.9944 |
 | 3 | 0.1026 | 0.9638 | 0.0192 | 0.9958 |
 | 4 | 0.1053 | 0.9619 | 0.0111 | 0.9972 |
- 
+
+### Precision, Recall & Confusion Matrix
+Recall on the `def_front` class matters more here than overall accuracy, since missing a real defect is more costly than a false alarm.
+
+![Confusion Matrix](docs/confusion_matrix.png)
+
+|              | precision | recall | f1-score | support |
+|    ---       |    ---    |  ---   |   ---    |   ---   |
+| def_front    |    1.00   |  1.00  |   1.00   |   453   |
+| ok_front     |    0.99   |  1.00  |   1.00   |   262   |
+| accuracy     |           |        |   1.00   |   715   |
+| macro avg    |    1.00   |  1.00  |   1.00   |   715   |
+| weighted avg |    1.00   |  1.00  |   1.00   |   715   |
+
 ## Dataset
  
 [Real-life Industrial Dataset of Casting Product](https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product) — submersible pump impeller images, labeled as defective or acceptable, pre-split into train/test sets. Not included in this repo (see Setup below to download it yourself).
@@ -50,6 +63,8 @@ Rather than training a CNN from scratch, this project uses **transfer learning**
 ├── model.py                 # ResNet18 architecture definition
 ├── train.py                 # Training loop (train/test phases, checkpointing)
 ├── data.py                  # Dataset loading and transforms
+├── evaluate.py              # Precision/recall/confusion matrix evaluation
+├── run_evaluation.py        # Loads saved weights and re-runs evaluation without retraining
 ├── config.py                # Device configuration (CPU/GPU)
 ├── visualize.py             # Visualizes sample predictions after training
 ├── app.py                   # Flask app for interactive inference
@@ -84,6 +99,11 @@ Visit `http://127.0.0.1:5000`, upload a casting part image, and get an instant d
 **4. (Optional) Retrain the model:**
 ```bash
 python main.py
+```
+
+**5. (Optional) Re-run evaluation without retraining:**
+```bash
+python run_evaluation.py
 ```
  
 ## Future Improvements

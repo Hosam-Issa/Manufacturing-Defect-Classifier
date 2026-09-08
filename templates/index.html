@@ -3,24 +3,97 @@
 <head>
     <title>Casting Defect Classifier</title>
     <style>
-        body { font-family: sans-serif; background: #1e1e1e; color: #eee; padding: 2rem; text-align: center; }
-        .result { font-size: 1.5rem; margin-top: 1.5rem; font-weight: bold; }
-        .defective {color: #ff5252; }
-        .ok { color: #4dd0e1; }
+        body {
+            font-family: sans-serif;
+            background: #1e1e1e;
+            color: #eee;
+            padding: 3rem 2rem;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+
+        form {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        input[type="file"] {
+            font-size: 1.1rem;
+            color: #eee;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 0.7rem 2rem;
+            background: #4dd0e1;
+            color: #1e1e1e;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3ab8c9;
+        }
+
+        .result {
+            font-size: 2rem;
+            margin-top: 2rem;
+            font-weight: bold;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .defective {
+            color: #ff5252;
+            background: #3a1f1f;
+        }
+
+        .ok {
+            color: #4dd0e1;
+            background: #1f3538;
+        }
+
+        img {
+            max-width: 100%;
+            width: 350px;
+            margin-top: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #444;
+        }
     </style>
 </head>
 <body>
-    <h1>Casting Part Defect Classifier</h1>
-    <form action="/predict" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Classify</button>
-    </form>
+    <div class="container">
+        <h1>Casting Part Defect Classifier</h1>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Classify</button>
+        </form>
 
-    {% if prediction %}
-        <div class="result {{ 'defective' if prediction == 'def_front' else 'ok' }}">
-            Prediction: {{ prediction }}
-        </div>
-        <img src="data:{{ type }};base64,{{ image_data }}" alt="Uploaded image" style="max-width: 400px; margin-top: 1rem; border-radius: 8px;">
-    {% endif %}
+        {% if prediction %}
+            <div class="result {{ 'defective' if prediction == 'def_front' else 'ok' }}">
+                Prediction: {{ prediction }}
+            </div>
+            <img src="data:{{ img_type }};base64,{{ image_data }}" alt="Uploaded image">
+        {% endif %}
+    </div>
 </body>
 </html>

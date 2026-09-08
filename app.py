@@ -48,9 +48,9 @@ def predict():
     prediction = class_names[pred.item()]
 
     encoded_image = base64.b64encode(image_bytes).decode('utf-8')
-    type = file.content_type
+    img_type = file.content_type
 
-    return render_template('index.html', prediction=prediction, image_data=encoded_image, type=type)
+    return render_template('index.html', prediction=prediction, image_data=encoded_image, img_type=img_type)
 
 if __name__ == '__main__':
     app.run(debug=True)

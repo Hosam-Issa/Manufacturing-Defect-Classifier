@@ -2,8 +2,6 @@
  
 A binary image classifier that flags defective vs. acceptable manufactured parts, built with transfer learning on a pretrained ResNet18, and served through a Flask web app for interactive predictions.
  
-<!-- <img src="docs/ok_example.png" width="400">
-<img src="docs/defective_example.png" width="400"> -->
 ![Prediction Example](docs/ok_example.png)
 ![Prediction Example](docs/defective_example.png)
 
